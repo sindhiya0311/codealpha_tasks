@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ profile.user.username }} • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <a href="/feed/" class="back-btn">←</a>
+      <div class="username">{{ profile.user.username }}</div>
+      <div></div>
+    </header>
+
+    <div class="app">
+      <!-- PROFILE HEADER -->
+      <div class="profile-header">
+        <div class="profile-pic">
+          {{ profile.user.username|slice:":1"|upper }}
+        </div>
+
+        <!-- PROFILE INFO -->
+        <div class="profile-info">
+          <!-- STATS -->
+          <div class="profile-stats">
+            <a href="#" class="stat">
+              <b>{{ posts.count }}</b>
+              <span>posts</span>
+            </a>
+
+            <a href="/followers/{{ profile.user.username }}/" class="stat">
+              <b>{{ profile.followers.count }}</b>
+              <span>followers</span>
+            </a>
+
+            <a href="/following/{{ profile.user.username }}/" class="stat">
+              <b>{{ profile.user.following.count }}</b>
+              <span>following</span>
+            </a>
+          </div>
+
+          <!-- ACTION BUTTON -->
+          {% if request.user == profile.user %}
+          <a class="follow-btn" href="/edit-profile/">Edit Profile</a>
+          {% elif follow_label %}
+          <a class="follow-btn" href="/follow/{{ profile.user.username }}/">
+            {{ follow_label }}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <div class="profile-bio">{{ profile.bio|default:"No bio yet." }}</div>
+
+      <!-- POSTS GRID -->
+      <div class="profile-posts">
+        {% for post in posts %}
+        <img src="{{ post.image.url }}" />
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block content %}
+
+<div style="padding: 30px">
+  <h2>{{ project.name }}</h2>
+
+  <!-- MEMBERS -->
+  <h3 style="margin-top: 20px">Members</h3>
+
+  <div style="display: flex; gap: 10px; margin-bottom: 10px">
+    {% for member in project.members.all %}
+    <div
+      style="
+        padding: 6px 12px;
+        background: #222;
+        border-radius: 20px;
+        font-size: 13px;
+      "
+    >
+      {{ member.username }}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- INVITE MEMBER -->
+  <form method="POST" style="max-width: 250px; margin-bottom: 30px">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="invite" />
+    <input name="username" placeholder="Invite by username" />
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- BOARD -->
+  <div style="display: flex; gap: 20px; margin-top: 30px">
+    {% for column in columns %}
+    <div
+      style="
+        width: 260px;
+        background: #1a1a1a;
+        border-radius: 10px;
+        padding: 15px;
+      "
+    >
+      <h4>{{ column.name }}</h4>
+
+      {% for task in column.tasks.all %}
+      <div
+        style="
+          background: #111;
+          padding: 10px;
+          border-radius: 8px;
+          margin-bottom: 10px;
+        "
+      >
+        <strong>{{ task.title }}</strong>
+
+        <div style="font-size: 12px; opacity: 0.6">
+          Assigned: {{ task.assigned_to.username|default:"None" }}
+        </div>
+
+        <!-- ASSIGN -->
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="assign" />
+          <input type="hidden" name="task_id" value="{{ task.id }}" />
+
+          <select name="assigned_to">
+            {% for member in project.members.all %}
+            <option value="{{ member.id }}">{{ member.username }}</option>
+            {% endfor %}
+          </select>
+
+          <button type="submit">Assign</button>
+        </form>
+
+        <!-- COMMENTS -->
+        <div style="margin-top: 10px">
+          {% for c in task.comments.all %}
+          <div style="font-size: 12px">
+            <strong>{{ c.user.username }}</strong>: {{ c.text }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="comment" />
+          <input type="hidden" name="task_id" value="{{ task.id }}" />
+          <input
+            name="comment"
+            placeholder="Comment..."
+            onkeydown="if(event.key==='Enter'){this.form.submit();}"
+          />
+        </form>
+      </div>
+      {% endfor %}
+
+      <!-- ADD TASK -->
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_task" />
+        <input type="hidden" name="column" value="{{ column.id }}" />
+        <input
+          name="title"
+          placeholder="+ Add task"
+          onkeydown="if(event.key==='Enter'){this.form.submit();}"
+        />
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+<div style="max-width: 320px; margin: 120px auto">
+  <h2 style="margin-bottom: 20px">Welcome back</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input name="username" placeholder="Username" />
+    <input name="password" type="password" placeholder="Password" />
+    <button>Login</button>
+  </form>
+
+  <p style="margin-top: 15px; opacity: 0.6">
+    No account?
+    <a href="/signup/" style="color: white">Create one →</a>
+  </p>
+</div>
+{% endblock %}

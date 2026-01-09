@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="javascript:history.back()">←</a>
+      <h3>Users</h3>
+    </header>
+
+    {% for user in users %}
+    <div class="user-row">
+      <a href="/profile/{{ user.username }}/"> {{ user.username }} </a>
+    </div>
+    {% endfor %}
+  </body>
+</html>

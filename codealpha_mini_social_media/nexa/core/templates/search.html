@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="/feed/">←</a>
+      <h3>Search</h3>
+    </header>
+
+    <div class="app">
+      <form method="GET" class="search-box">
+        <input name="q" placeholder="Search users" value="{{ query }}" />
+      </form>
+
+      {% for user in users %}
+      <div class="user-row">
+        <a href="/profile/{{ user.username }}/">{{ user.username }}</a>
+      </div>
+      {% empty %}
+      <p class="empty-text">No users found</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

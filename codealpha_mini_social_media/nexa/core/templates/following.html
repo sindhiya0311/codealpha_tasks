@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Following • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="javascript:history.back()">←</a>
+      <h3>Users</h3>
+    </header>
+
+    <div class="app">
+      {% for user in users %}
+      <div class="user-row">
+        <a href="/profile/{{ user.username }}/">{{ user.username }}</a>
+      </div>
+      {% empty %}
+      <p style="padding: 16px; text-align: center">
+        You are not following anyone yet
+      </p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

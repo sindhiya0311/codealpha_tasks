@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notifications • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="/feed/">←</a>
+      <h3>Notifications</h3>
+    </header>
+
+    <div class="app notif-box">
+      {% for req in follow_requests %}
+      <div class="notif-item">
+        <b>{{ req.from_user.username }}</b> wants to follow you
+        <div class="notif-actions">
+          <a href="/request/{{ req.id }}/accept/">Accept</a>
+          <a href="/request/{{ req.id }}/reject/">Reject</a>
+        </div>
+      </div>
+      {% endfor %} {% for notif in notifications %}
+      <div class="notif-item">{{ notif.text }}</div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

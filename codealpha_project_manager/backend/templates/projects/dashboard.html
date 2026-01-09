@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% block content %}
+<div style="padding: 40px">
+  <h2>Your Projects</h2>
+
+  <div style="margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap">
+    {% for project in projects %}
+    <a
+      href="/project/{{ project.id }}/"
+      style="text-decoration: none; color: inherit"
+    >
+      <div class="project-card">{{ project.name }}</div>
+    </a>
+
+    {% empty %}
+    <p style="opacity: 0.6">No projects yet</p>
+    {% endfor %}
+
+    <div class="project-card add-card" onclick="openModal()">+ New Project</div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h3>Create Project</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input name="name" placeholder="Project name" required />
+      <button>Create</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .project-card {
+    width: 200px;
+    height: 120px;
+    border-radius: 12px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px) scale(1.03);
+  }
+
+  .add-card {
+    opacity: 0.6;
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-box {
+    background: #111;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    animation: pop 0.25s ease;
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  function openModal() {
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  document.getElementById("modal")?.addEventListener("click", function (e) {
+    if (e.target.id === "modal") {
+      this.style.display = "none";
+    }
+  });
+</script>
+
+{% endblock %}

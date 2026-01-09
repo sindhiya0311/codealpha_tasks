@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Post • Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="/feed/">←</a>
+      <h3>New Post</h3>
+    </header>
+
+    <div class="app">
+      <form method="POST" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+        <input type="file" name="image" required />
+        <textarea name="caption" placeholder="Write a caption..."></textarea>
+        <button type="submit">Share</button>
+      </form>
+    </div>
+  </body>
+</html>

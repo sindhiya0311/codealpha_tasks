@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nexa</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="nav-left">Nexa</div>
+      <div class="nav-icons">
+        <a href="/feed/">🏠</a>
+        <a href="/search/">🔍</a>
+        <a href="/post/new/">➕</a>
+        <a href="/notifications/">🔔</a>
+        <a href="/profile/{{ request.user.username }}/">👤</a>
+        <a href="/logout/">⎋</a>
+      </div>
+    </header>
+
+    <div class="app feed">
+      {% for post in posts %}
+      <div class="post-card">
+        <div class="post-header">
+          <a href="/profile/{{ post.user.username }}/">
+            {{ post.user.username }}
+          </a>
+        </div>
+
+        <img src="{{ post.image.url }}" />
+
+        <div class="post-actions">
+          <a href="/like/{{ post.id }}/">❤️</a>
+          <span>{{ post.likes.count }} likes</span>
+        </div>
+
+        <div class="caption">
+          <b>{{ post.user.username }}</b> {{ post.caption }}
+        </div>
+
+        <div class="comments">
+          {% for comment in post.comment_set.all %}
+          <div class="comment">
+            <b>{{ comment.user.username }}</b> {{ comment.text }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <form
+          method="POST"
+          action="/comment/{{ post.id }}/"
+          class="comment-form"
+        >
+          {% csrf_token %}
+          <input name="comment" placeholder="Add a comment..." required />
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
