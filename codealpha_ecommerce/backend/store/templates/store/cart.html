@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Your Cart | HappyBuy</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}" />
+  </head>
+  <body>
+    <header class="navbar">
+      <h1 class="brand">HappyBuy</h1>
+      <div class="nav-right">
+        <a href="/">Shop</a>
+        <a href="{% url 'login' %}">Login</a>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" style="display: inline">
+          {% csrf_token %}
+          <button type="submit" class="nav-btn">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </header>
+
+    <section class="fade-in cart-container">
+      <h2>Your Cart</h2>
+
+      {% if products %} {% for product in products %}
+      <div class="cart-item">
+        <span>{{ product.name }}</span>
+        <span>₹{{ product.price }}</span>
+
+        <a href="{% url 'remove_from_cart' product.id %}">Remove</a>
+      </div>
+      {% endfor %}
+
+      <a href="{% url 'checkout' %}">
+        <button style="margin-top: 20px">Proceed to Checkout</button>
+      </a>
+      {% else %}
+      <p>Your cart is empty 🌸</p>
+      {% endif %}
+    </section>
+  </body>
+</html>

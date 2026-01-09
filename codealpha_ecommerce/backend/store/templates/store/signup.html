@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up | HappyBuy</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}" />
+  </head>
+  <body>
+    <header class="navbar">
+      <h1 class="brand">HappyBuy</h1>
+    </header>
+
+    <section class="auth-wrapper fade-in">
+      <div class="auth-card">
+        <h2>Create your account ✨</h2>
+        <p class="auth-sub">Join HappyBuy and start shopping</p>
+
+        <form method="post">
+          {% csrf_token %} {{ form.as_p }}
+          <button type="submit">Sign Up</button>
+        </form>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a href="{% url 'login' %}">Login</a>
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login | HappyBuy</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}" />
+  </head>
+  <body>
+    <header class="navbar">
+      <h1 class="brand">HappyBuy</h1>
+    </header>
+
+    <section class="auth-wrapper fade-in">
+      <div class="auth-card">
+        <h2>Welcome back 👋</h2>
+        <p class="auth-sub">Log in to continue shopping</p>
+
+        <form method="post">
+          {% csrf_token %} {{ form.as_p }}
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>

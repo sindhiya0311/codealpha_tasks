@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HappyBuy</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}" />
+    <script src="{% static 'store/script.js' %}" defer></script>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+      <div>
+        <h1 class="brand">HappyBuy</h1>
+        <p class="tagline">Everything you love. Just a click away.</p>
+      </div>
+
+      <div class="nav-right">
+        <a href="{% url 'cart' %}">
+          Cart{% if cart_count %} ({{ cart_count }}){% endif %}
+        </a>
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" style="display: inline">
+          {% csrf_token %}
+          <button type="submit" class="nav-btn">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </header>
+
+    <!-- ===== PRODUCT GRID ===== -->
+    <section class="product-grid fade-in">
+      {% for product in products %}
+      <a href="{% url 'product' product.id %}" class="card-link">
+        <div class="product-card">
+          <img src="{{ product.image }}" alt="{{ product.name }}" />
+          <h3>{{ product.name }}</h3>
+          <p class="price">₹{{ product.price }}</p>
+          <button>View</button>
+        </div>
+      </a>
+      {% endfor %}
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p>HappyBuy — trusted by thousands for simple, happy shopping.</p>
+      <p class="footer-sub">Secure payments • Easy returns • Customer-first</p>
+    </footer>
+  </body>
+</html>
